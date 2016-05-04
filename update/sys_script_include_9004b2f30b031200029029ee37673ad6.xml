@@ -5,11 +5,13 @@
         <active>true</active>
         <api_name>sn_yan_test_1.AbstractAjaxProcessor</api_name>
         <client_callable>true</client_callable>
-        <description>Base ajax processor class that other ajax processors extend</description>
+        <description>Base ajax processor class that other ajax processors extend add a new change</description>
         <name>AbstractAjaxProcessor</name>
         <script><![CDATA[// Base ajax processor class that other ajax processors extend
 // 
 // note that some methods return Java values, not JavaScript values
+
+//Add a new change here
 
 var AbstractAjaxProcessor = Class.create();
 
@@ -99,7 +101,7 @@ AbstractAjaxProcessor.prototype = {
         <sys_created_on>2016-05-04 21:33:32</sys_created_on>
         <sys_customer_update>false</sys_customer_update>
         <sys_id>9004b2f30b031200029029ee37673ad6</sys_id>
-        <sys_mod_count>0</sys_mod_count>
+        <sys_mod_count>2</sys_mod_count>
         <sys_name>AbstractAjaxProcessor</sys_name>
         <sys_package display_value="Yan Test 1" source="sn_yan_test_1">b13376730b031200029029ee37673ab3</sys_package>
         <sys_policy/>
@@ -107,6 +109,6 @@ AbstractAjaxProcessor.prototype = {
         <sys_scope display_value="Yan Test 1">b13376730b031200029029ee37673ab3</sys_scope>
         <sys_update_name>sys_script_include_9004b2f30b031200029029ee37673ad6</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2016-05-04 21:33:32</sys_updated_on>
+        <sys_updated_on>2016-05-04 23:33:18</sys_updated_on>
     </sys_script_include>
 </record_update>
