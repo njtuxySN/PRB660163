@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_script_include">
+    <sys_script_include action="INSERT_OR_UPDATE">
+        <access>package_private</access>
+        <active>true</active>
+        <api_name>sn_yan_test_1.AbstractList</api_name>
+        <client_callable>false</client_callable>
+        <description/>
+        <name>AbstractList</name>
+        <script><![CDATA[gs.include("PrototypeServer");
+
+var AbstractList = Class.create();
+
+AbstractList.prototype = {
+    SYS_USER : 'sys_user',
+    NAME : 'name',
+    VIEW : 'view',
+    PARENT : 'parent',
+    SYS_UI_LIST : 'sys_ui_list',
+    RELATIONSHIP : 'relationship',
+    DOMAIN : 'sys_domain',
+    NOT_FOUND_ID: "-1",
+
+    initialize : function(table, view, viewName) {
+        this.tableName = table;
+        this.view = view;
+        this.parentName = '';
+        this.relationshipID = '';
+        this.user = gs.getUserID();
+        this.defaultViewID = new GlideScriptViewManager("").getID();
+        this.domainID = GlideDomainSupport.getCurrentDomainValueOrGlobal();
+
+        // mobile always gets the mobile view, regardless of what we asked for
+        if (GlideMobileExtensions.getDeviceType() == 'mobile')
+            this.viewName = 'Mobile';
+
+        if (viewName)
+            this.viewName = viewName.toLowerCase();
+    },
+
+    setParent : function(parent) {
+        this.parentName = parent;
+    },
+
+    setRelationshipID : function(relID) {
+        this.relationshipID = relID;
+    },
+
+    addParentQuery : function(gr) {
+        if (this.parentName != '')
+            gr.addQuery(this.PARENT, this.parentName);
+        else
+            gr.addNullQuery(this.PARENT);
+    },
+
+    addRelationshipQuery : function(gr) {
+        if (this.relationshipID != '')
+            gr.addQuery(this.RELATIONSHIP, this.relationshipID);
+        else
+            gr.addNullQuery(this.RELATIONSHIP);
+    },
+
+    domainQuery : function(gr, domainID) {
+        GlideDomainSupport.queryLowestLevelDomain(gr,domainID);
+    },
+
+    getParents : function() {
+        var answer = this._getParentArray(this.tableName);
+
+        if (!GlidePluginManager.isRegistered('com.glideapp.staged_tables'))
+            return answer;
+
+        var s = new StagingEngine();
+        var staged = s.getStagedTable(this.tableName);
+        if (staged == null)
+            return answer;
+
+        var merged = new Array();
+        merged.push(staged);
+        var list = this._getParentArray(staged);
+        if (list == null || answer == null)
+            return merged;
+
+        var maxlength = list.length;
+        if (maxlength < answer.length)
+            maxlength = answer.length;
+
+        for (var i = 0; i < maxlength; i++) {
+            if (i < answer.length)
+                merged.push(answer[i]);
+
+            if (i < list.length)
+                merged.push(list[i]);
+        }
+
+        return merged;
+    },
+
+    _getParentArray : function(tableName) {
+        var list = GlideDBObjectManager.getActionTables(tableName);
+        if (list == null || list.size() < 2)
+            return null;
+
+        var answer = new Array();
+        for (var i = 1; i < list.size(); i++)
+            answer[i-1] = list.get(i);
+
+        return answer;
+    }
+}        ]]></script>
+        <sys_class_name>sys_script_include</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2016-05-04 21:34:16</sys_created_on>
+        <sys_customer_update>false</sys_customer_update>
+        <sys_id>d154faf30b031200029029ee37673a3f</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>AbstractList</sys_name>
+        <sys_package display_value="Yan Test 1" source="sn_yan_test_1">b13376730b031200029029ee37673ab3</sys_package>
+        <sys_policy/>
+        <sys_replace_on_upgrade>false</sys_replace_on_upgrade>
+        <sys_scope display_value="Yan Test 1">b13376730b031200029029ee37673ab3</sys_scope>
+        <sys_update_name>sys_script_include_d154faf30b031200029029ee37673a3f</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2016-05-04 21:34:16</sys_updated_on>
+    </sys_script_include>
+</record_update>
